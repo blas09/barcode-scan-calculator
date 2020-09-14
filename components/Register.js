@@ -5,7 +5,8 @@ import { Button, Container, Content, Form, Item, Input, Text } from 'native-base
 import { useForm, Controller } from "react-hook-form";
 
 export default function Register() {
-    const { control, handleSubmit, errors } = useForm();
+    const { control, handleSubmit, errors, watch } = useForm();
+    let pwd = watch("password");
 
     const onSubmit = () => {
         Alert.alert(
@@ -40,11 +41,11 @@ export default function Register() {
                                 />
                             )}
                             name="username"
-                            rules={{ required: true }}
+                            rules={{ required: 'This field cannot be empty.' }}
                             defaultValue=""
                         />
                     </Item>
-                    <Text style={styles.errorMessage}>{errors.username && errors.username.type === "required" && 'This field cannot be empty.'}</Text>
+                    <Text style={styles.errorMessage}>{errors.username && errors.username.message}</Text>
                     <Item regular>
                         <Controller
                             control={control}
@@ -57,11 +58,11 @@ export default function Register() {
                                 />
                             )}
                             name="password"
-                            rules={{ required: true }}
+                            rules={{ required: 'This field cannot be empty.' }}
                             defaultValue=""
                         />
                     </Item>
-                    <Text style={styles.errorMessage}>{errors.password && errors.password.type === "required" && 'This field cannot be empty.'}</Text>
+                    <Text style={styles.errorMessage}>{errors.password && errors.password.message}</Text>
                     <Item regular>
                         <Controller
                             control={control}
@@ -74,11 +75,11 @@ export default function Register() {
                                 />
                             )}
                             name="confirmedPassword"
-                            rules={{ required: true }}
+                            rules={{ required: 'This field cannot be empty.', validate: value => value === pwd || "Passwords don't match." }}
                             defaultValue=""
                         />
                     </Item>
-                    <Text style={styles.errorMessage}>{errors.confirmedPassword && errors.confirmedPassword.type === "required" && 'This field cannot be empty.'}</Text>
+                    <Text style={styles.errorMessage}>{errors.confirmedPassword && errors.confirmedPassword.message}</Text>
                     <Button block onPress={handleSubmit(onSubmit)}>
                         <Text>Register</Text>
                     </Button>

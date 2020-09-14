@@ -55,10 +55,14 @@ export default function Register() {
                                     onBlur={onBlur}
                                     onChangeText={value => onChange(value)}
                                     value={value}
+                                    keyboardType="number-pad"
                                 />
                             )}
                             name="password"
-                            rules={{ required: 'This field cannot be empty.' }}
+                            rules={{
+                                required: 'This field cannot be empty.',
+                                minLength: {value: 5, message: 'Password must have at least 5 characters.'},
+                            }}
                             defaultValue=""
                         />
                     </Item>
@@ -72,10 +76,15 @@ export default function Register() {
                                     onBlur={onBlur}
                                     onChangeText={value => onChange(value)}
                                     value={value}
+                                    keyboardType="number-pad"
                                 />
                             )}
                             name="confirmedPassword"
-                            rules={{ required: 'This field cannot be empty.', validate: value => value === pwd || "Passwords don't match." }}
+                            rules={{
+                                required: 'This field cannot be empty.',
+                                minLength: {value: 5, message: 'Password must have at least 5 characters.'},
+                                validate: value => value === pwd || "Passwords don't match.",
+                            }}
                             defaultValue=""
                         />
                     </Item>

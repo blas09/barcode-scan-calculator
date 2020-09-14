@@ -1,29 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 import { Dimensions, Image, StyleSheet, Alert } from 'react-native';
 import { Button, Container, Content, Form, Item, Input, Text } from 'native-base';
+import { useForm, Controller } from "react-hook-form";
 
 export default function Register() {
-    const [username, setUsername] = useState({value: '', touched: false, valid: false, errorMessage: ''});
-    const [password, setPassword] = useState({value: '', touched: false, valid: false, errorMessage: ''});
-    const [confirmedPassword, setConfirmedPassword] = useState({value: '', touched: false, valid: false, errorMessage: ''});
+    const { control, handleSubmit, errors } = useForm();
 
-    const submit = () => {
-        if (false) {
-            Alert.alert(
-                "Submit",
-                "Form is ready to submit!",
-                [
-                    {
-                        text: "Cancel",
-                        onPress: () => console.log("Cancel Pressed"),
-                        style: "cancel"
-                    },
-                    { text: "OK", onPress: () => console.log("OK Pressed") }
-                ],
-                { cancelable: false }
-            );
-        }
+    const onSubmit = () => {
+        Alert.alert(
+            "Submit",
+            "Form is ready to submit!",
+            [
+                {
+                    text: "Cancel",
+                    onPress: () => console.log("Cancel Pressed"),
+                    style: "cancel"
+                },
+                { text: "OK", onPress: () => console.log("OK Pressed") }
+            ],
+            { cancelable: false }
+        )
     }
 
     return (
@@ -32,30 +29,57 @@ export default function Register() {
                 <Image source={require('../assets/logo.png')} style={styles.logo} />
                 <Form style={styles.form}>
                     <Item regular>
-                        <Input
-                            placeholder='Username'
-                            value={username.value}
-                            onChangeText={value => setUsername({...username, value: value, touched: true})}
+                        <Controller
+                            control={control}
+                            render={({ onChange, onBlur, value }) => (
+                                <Input
+                                    placeholder='Username'
+                                    onBlur={onBlur}
+                                    onChangeText={value => onChange(value)}
+                                    value={value}
+                                />
+                            )}
+                            name="username"
+                            rules={{ required: true }}
+                            defaultValue=""
                         />
                     </Item>
-                    <Text style={styles.errorMessage}>{username.errorMessage}</Text>
+                    <Text style={styles.errorMessage}>{errors.username && errors.username.type === "required" && 'This field cannot be empty.'}</Text>
                     <Item regular>
-                        <Input
-                            placeholder='Password'
-                            value={password.value}
-                            onChangeText={value => setPassword({...password, value: value, touched: true})}
+                        <Controller
+                            control={control}
+                            render={({ onChange, onBlur, value }) => (
+                                <Input
+                                    placeholder='Password'
+                                    onBlur={onBlur}
+                                    onChangeText={value => onChange(value)}
+                                    value={value}
+                                />
+                            )}
+                            name="password"
+                            rules={{ required: true }}
+                            defaultValue=""
                         />
                     </Item>
-                    <Text style={styles.errorMessage}>{password.errorMessage}</Text>
+                    <Text style={styles.errorMessage}>{errors.password && errors.password.type === "required" && 'This field cannot be empty.'}</Text>
                     <Item regular>
-                        <Input
-                            placeholder='Confirm Password'
-                            value={confirmedPassword.value}
-                            onChangeText={value => setConfirmedPassword({...confirmedPassword, value: value, touched: true})}
+                        <Controller
+                            control={control}
+                            render={({ onChange, onBlur, value }) => (
+                                <Input
+                                    placeholder='Confirm Password'
+                                    onBlur={onBlur}
+                                    onChangeText={value => onChange(value)}
+                                    value={value}
+                                />
+                            )}
+                            name="confirmedPassword"
+                            rules={{ required: true }}
+                            defaultValue=""
                         />
                     </Item>
-                    <Text style={styles.errorMessage}>{confirmedPassword.errorMessage}</Text>
-                    <Button block onPress={submit}>
+                    <Text style={styles.errorMessage}>{errors.confirmedPassword && errors.confirmedPassword.type === "required" && 'This field cannot be empty.'}</Text>
+                    <Button block onPress={handleSubmit(onSubmit)}>
                         <Text>Register</Text>
                     </Button>
                 </Form>

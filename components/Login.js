@@ -1,13 +1,13 @@
 import React from 'react';
 
-import { StyleSheet } from 'react-native';
-import { Button, Container, Header, Content, Form, Item, Input, Label, Text } from 'native-base';
+import { Dimensions, Image, StyleSheet, View } from 'react-native';
+import { Button, Container, Content, Form, Item, Input, Text } from 'native-base';
 
 export default function FixedLabelExample() {
     return (
         <Container>
-            <Header />
             <Content contentContainerStyle={styles.content}>
+                <Image source={require('../assets/logo.png')} style={styles.logo} />
                 <Form style={styles.form}>
                     <Item regular>
                         <Input placeholder='Password' />
@@ -33,4 +33,8 @@ const styles = StyleSheet.create({
     button: {
         marginVertical: 10,
     },
+    logo: {
+        width: (Dimensions.get('window').width / 5) * 2,
+        height: (Dimensions.get('window').width / 5) * 2,
+    }
 });

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import { AppLoading } from 'expo';
 import * as Font from 'expo-font';
+import Register from "./components/Register";
 import Login from "./components/Login";
 
 const fetchFonts = () => {
@@ -23,5 +24,5 @@ export default function App() {
       );
   }
 
-  return <Login />;
+  return <Register />;
 }

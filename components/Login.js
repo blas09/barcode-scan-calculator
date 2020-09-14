@@ -1,18 +1,18 @@
 import React from 'react';
 
-import { Dimensions, Image, StyleSheet, View } from 'react-native';
+import { Dimensions, Image, StyleSheet } from 'react-native';
 import { Button, Container, Content, Form, Item, Input, Text } from 'native-base';
 
-export default function FixedLabelExample() {
+export default function Login() {
     return (
         <Container>
             <Content contentContainerStyle={styles.content}>
                 <Image source={require('../assets/logo.png')} style={styles.logo} />
                 <Form style={styles.form}>
-                    <Item regular>
+                    <Item style={styles.item} regular>
                         <Input placeholder='Password' />
                     </Item>
-                    <Button style={styles.button} block>
+                    <Button block>
                         <Text>Log in</Text>
                     </Button>
                 </Form>
@@ -30,11 +30,11 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
-    button: {
-        marginVertical: 10,
-    },
     logo: {
         width: (Dimensions.get('window').width / 5) * 2,
         height: (Dimensions.get('window').width / 5) * 2,
+    },
+    item: {
+        marginBottom: 10,
     }
 });

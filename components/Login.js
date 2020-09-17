@@ -2,9 +2,24 @@ import React, { useState } from 'react';
 
 import { Dimensions, Image, StyleSheet, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { Button, Container, Content, Form, Item, Input, Text } from 'native-base';
+import { login } from "../store/actions/barcode.action";
+import {useDispatch, useSelector} from "react-redux";
 
 export default function Login() {
     const [password, setPassword] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
+    const user = useSelector(state => state.barcode.user);
+    const dispatch = useDispatch();
+
+    const handleSubmit = () => {
+        if (user.password === password) {
+            setErrorMessage('');
+            dispatch(login());
+        } else {
+            setErrorMessage('Password invalid.');
+            setPassword('');
+        }
+    }
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -21,7 +36,8 @@ export default function Login() {
                                 secureTextEntry
                             />
                         </Item>
-                        <Button disabled={password.length < 5} block onPress={Keyboard.dismiss}>
+                        <Text style={styles.errorMessage}>{errorMessage}</Text>
+                        <Button block disabled={password.length < 5} onPress={handleSubmit}>
                             <Text>Log in</Text>
                         </Button>
                     </Form>
@@ -46,5 +62,10 @@ const styles = StyleSheet.create({
     },
     item: {
         marginBottom: 10,
+    },
+    errorMessage: {
+        marginBottom: 10,
+        color: 'red',
+        fontSize: 12,
     }
 });

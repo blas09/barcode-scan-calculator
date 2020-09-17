@@ -1,27 +1,21 @@
 import React from 'react';
 
-import {Dimensions, Image, StyleSheet, Alert, Keyboard, TouchableWithoutFeedback} from 'react-native';
+import { Dimensions, Image, StyleSheet, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import { Button, Container, Content, Form, Item, Input, Text } from 'native-base';
 import { useForm, Controller } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { registerUser } from "../store/actions/barcode.action";
 
 export default function Register() {
     const { control, handleSubmit, errors, watch } = useForm();
+    const dispatch = useDispatch();
     let pwd = watch("password");
 
-    const onSubmit = () => {
-        Alert.alert(
-            "Submit",
-            "Form is ready to submit!",
-            [
-                {
-                    text: "Cancel",
-                    onPress: () => console.log("Cancel Pressed"),
-                    style: "cancel"
-                },
-                { text: "OK", onPress: () => console.log("OK Pressed") }
-            ],
-            { cancelable: false }
-        )
+    const onSubmit = data => {
+        dispatch(registerUser({
+            username: data.username,
+            password: data.password,
+        }));
     }
 
     return (

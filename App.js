@@ -1,8 +1,18 @@
 import React, { useState } from 'react';
 
+import { createStore, combineReducers } from "redux";
+
 import { AppLoading } from 'expo';
 import * as Font from 'expo-font';
-import AppNavigator from "./navigation/AppNavigator";
+import barcodeReducer from "./store/reducers/barcode.reducer";
+import { Provider } from 'react-redux';
+import Router from "./navigation/Router";
+
+const rootReducer = combineReducers({
+    barcode: barcodeReducer,
+});
+
+const store = createStore(rootReducer);
 
 const fetchFonts = () => {
     return Font.loadAsync({
@@ -23,5 +33,9 @@ export default function App() {
       );
   }
 
-  return <AppNavigator />;
+  return (
+      <Provider store={store}>
+          <Router />
+      </Provider>
+  );
 }

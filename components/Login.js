@@ -4,6 +4,7 @@ import { Dimensions, Image, StyleSheet, TouchableWithoutFeedback, Keyboard } fro
 import { Button, Container, Content, Form, Item, Input, Text } from 'native-base';
 import { login } from "../store/actions/barcode.action";
 import {useDispatch, useSelector} from "react-redux";
+import View from "react-native-web/src/exports/View";
 
 export default function Login() {
     const [password, setPassword] = useState('');
@@ -26,6 +27,9 @@ export default function Login() {
             <Container>
                 <Content contentContainerStyle={styles.content}>
                     <Image source={require('../assets/logo.png')} style={styles.logo} />
+
+                    <Text style={styles.username}>{user.username}</Text>
+
                     <Form style={styles.form}>
                         <Item style={styles.item} regular>
                             <Input
@@ -37,6 +41,7 @@ export default function Login() {
                             />
                         </Item>
                         <Text style={styles.errorMessage}>{errorMessage}</Text>
+
                         <Button block disabled={password.length < 5} onPress={handleSubmit}>
                             <Text>Log in</Text>
                         </Button>
@@ -67,5 +72,9 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         color: 'red',
         fontSize: 12,
+    },
+    username: {
+        marginVertical: 10,
+        fontSize: 25,
     }
 });

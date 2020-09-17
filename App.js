@@ -1,18 +1,11 @@
 import React, { useState } from 'react';
 
-import { createStore, combineReducers } from "redux";
-
 import { AppLoading } from 'expo';
 import * as Font from 'expo-font';
-import barcodeReducer from "./store/reducers/barcode.reducer";
 import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import { store, persistor } from './store/store';
 import Router from "./navigation/Router";
-
-const rootReducer = combineReducers({
-    barcode: barcodeReducer,
-});
-
-const store = createStore(rootReducer);
 
 const fetchFonts = () => {
     return Font.loadAsync({
@@ -33,9 +26,11 @@ export default function App() {
       );
   }
 
-  return (
-      <Provider store={store}>
-          <Router />
-      </Provider>
-  );
+    return (
+        <Provider store={store}>
+            <PersistGate loading={null} persistor={persistor}>
+                <Router />
+            </PersistGate>
+        </Provider>
+    );
 }

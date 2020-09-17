@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Dimensions, Image, StyleSheet, Alert } from 'react-native';
+import {Dimensions, Image, StyleSheet, Alert, Keyboard, TouchableWithoutFeedback} from 'react-native';
 import { Button, Container, Content, Form, Item, Input, Text } from 'native-base';
 import { useForm, Controller } from "react-hook-form";
 
@@ -25,7 +25,8 @@ export default function Register() {
     }
 
     return (
-        <Container style={styles.container}>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+            <Container style={styles.container}>
             <Content contentContainerStyle={styles.content}>
                 <Image source={require('../assets/logo.png')} style={styles.logo} />
                 <Form style={styles.form}>
@@ -56,6 +57,7 @@ export default function Register() {
                                     onChangeText={value => onChange(value)}
                                     value={value}
                                     keyboardType="number-pad"
+                                    secureTextEntry
                                 />
                             )}
                             name="password"
@@ -77,6 +79,7 @@ export default function Register() {
                                     onChangeText={value => onChange(value)}
                                     value={value}
                                     keyboardType="number-pad"
+                                    secureTextEntry
                                 />
                             )}
                             name="confirmedPassword"
@@ -95,6 +98,7 @@ export default function Register() {
                 </Form>
             </Content>
         </Container>
+        </TouchableWithoutFeedback>
     );
 }
 

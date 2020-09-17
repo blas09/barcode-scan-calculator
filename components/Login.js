@@ -1,25 +1,33 @@
 import React, { useState } from 'react';
 
-import { Dimensions, Image, StyleSheet } from 'react-native';
+import { Dimensions, Image, StyleSheet, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { Button, Container, Content, Form, Item, Input, Text } from 'native-base';
 
 export default function Login() {
     const [password, setPassword] = useState('');
 
     return (
-        <Container>
-            <Content contentContainerStyle={styles.content}>
-                <Image source={require('../assets/logo.png')} style={styles.logo} />
-                <Form style={styles.form}>
-                    <Item style={styles.item} regular>
-                        <Input placeholder='Password' value={password} onChangeText={password => setPassword(password)} />
-                    </Item>
-                    <Button block>
-                        <Text>Log in</Text>
-                    </Button>
-                </Form>
-            </Content>
-        </Container>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+            <Container>
+                <Content contentContainerStyle={styles.content}>
+                    <Image source={require('../assets/logo.png')} style={styles.logo} />
+                    <Form style={styles.form}>
+                        <Item style={styles.item} regular>
+                            <Input
+                                placeholder='Password'
+                                value={password}
+                                onChangeText={password => setPassword(password)}
+                                keyboardType="number-pad"
+                                secureTextEntry
+                            />
+                        </Item>
+                        <Button disabled={password.length < 5} block onPress={Keyboard.dismiss}>
+                            <Text>Log in</Text>
+                        </Button>
+                    </Form>
+                </Content>
+            </Container>
+        </TouchableWithoutFeedback>
     );
 }
 

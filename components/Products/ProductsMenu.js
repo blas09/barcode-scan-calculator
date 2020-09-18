@@ -5,7 +5,7 @@ import barcodeConstants from '../../store/constants/barcode.constant';
 import { StyleSheet, Dimensions } from 'react-native';
 import { Content, Button, Icon, Text } from 'native-base';
 
-export default function Products({navigation}) {
+export default function ProductsMenu({navigation}) {
     return (
         <Layout title={barcodeConstants.PRODUCTS_TITLE} navigation={navigation}>
             <Content contentContainerStyle={styles.content}>

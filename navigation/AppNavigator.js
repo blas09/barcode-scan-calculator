@@ -1,18 +1,19 @@
 import { createStackNavigator } from "react-navigation-stack";
 import { createAppContainer } from "react-navigation";
 
-import HomeScreen from "../screens/HomeScreen";
-import ProductsScreen from "../screens/Products/ProductsScreen";
+import CalculatorScreen from "../screens/Calculator/CalculatorScreen";
+import ProductsMenuScreen from "../screens/Products/ProductsMenuScreen";
 import AccountScreen from "../screens/AccountScreen";
 import ProcessProductScreen from "../screens/Products/ProcessProductScreen";
+import ProcessCalculatorScreen from "../screens/Calculator/ProcessCalculatorScreen";
 
 const AppNavigator = createStackNavigator({
-    Home: {
-        screen: HomeScreen,
+    Calculator: {
+        screen: CalculatorScreen,
         navigationOptions: { headerShown: false }
     },
     Products: {
-        screen: ProductsScreen,
+        screen: ProductsMenuScreen,
         navigationOptions: { headerShown: false }
     },
     Account: {
@@ -21,6 +22,10 @@ const AppNavigator = createStackNavigator({
     },
     ProcessProduct: {
         screen: ProcessProductScreen,
+        navigationOptions: { headerShown: false }
+    },
+    ProcessCalculator: {
+        screen: ProcessCalculatorScreen,
         navigationOptions: { headerShown: false }
     }
 });

@@ -60,7 +60,6 @@ export default function ProcessProduct({ route, navigation }) {
                         <BarCodeScanner
                             onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
                             style={StyleSheet.absoluteFillObject}
-                            barCodeTypes={[BarCodeScanner.Constants.BarCodeType.ean13]}
                         />
                     </View> :
                     <Form style={styles.form}>

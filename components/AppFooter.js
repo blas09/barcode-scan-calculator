@@ -9,7 +9,7 @@ export default function AppFooter({title, navigation}) {
     return (
         <Footer>
             <FooterTab>
-                <Button active={title === barcodeConstants.HOME_TITLE} vertical onPress={() => navigation.navigate('Home')}>
+                <Button active={title === barcodeConstants.HOME_TITLE} vertical onPress={() => navigation.navigate('Calculator')}>
                     <Icon active={title === barcodeConstants.HOME_TITLE} name="calculator" />
                     <Text>Calculator</Text>
                 </Button>

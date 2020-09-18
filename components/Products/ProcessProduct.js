@@ -5,7 +5,7 @@ import { BarCodeScanner } from 'expo-barcode-scanner';
 import barcodeConstants from "../../store/constants/barcode.constant";
 import { saveProduct } from "../../store/actions/barcode.action";
 import Layout from "../Layout";
-import { StyleSheet } from "react-native";
+import { StyleSheet, Vibration } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function ProcessProduct({ route, navigation }) {
@@ -36,6 +36,7 @@ export default function ProcessProduct({ route, navigation }) {
 
         setBarcode(data);
         setScanned(true);
+        Vibration.vibrate();
     };
 
     const onSaveHandler = () => {
@@ -59,6 +60,7 @@ export default function ProcessProduct({ route, navigation }) {
                         <BarCodeScanner
                             onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
                             style={StyleSheet.absoluteFillObject}
+                            barCodeTypes={[BarCodeScanner.Constants.BarCodeType.ean13]}
                         />
                     </View> :
                     <Form style={styles.form}>

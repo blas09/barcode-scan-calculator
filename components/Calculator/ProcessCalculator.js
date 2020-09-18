@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { Text, List, ListItem, Icon, Content, Button } from 'native-base';
+import { Text, List, ListItem, Icon, Content, Button, Badge, Left, Body, Right } from 'native-base';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import barcodeConstants from "../../store/constants/barcode.constant";
 import { saveProduct } from "../../store/actions/barcode.action";
@@ -75,13 +75,31 @@ export default function ProcessCalculator({ route, navigation }) {
                 <Content contentContainerStyle={styles.contentList}>
                     <List>
                         <ListItem itemDivider>
-                            <Text>Purchased Products</Text>
+                            <Left style={{flex: 1}}><Text>TOTAL</Text></Left>
+                            <Body></Body>
+                            <Right style={{flex: 1}}>
+                                <Text>
+                                    {
+                                        purchasedProducts
+                                            .reduce((prev, curr) => prev + (curr.amount * curr.price), 0)
+                                            .toLocaleString('de-DE')
+                                    }
+                                </Text>
+                            </Right>
                         </ListItem>
                         {purchasedProducts.map(product => (
-                            <ListItem key={product.barcode}>
-                                <Text>{product.name}</Text>
-                                <Text>{product.name}</Text>
-                                <Text>{product.name}</Text>
+                            <ListItem icon key={product.barcode}>
+                                <Left>
+                                    <Badge style={{backgroundColor: '#FF9501', alignSelf: 'center'}}>
+                                        <Text>{product.amount}</Text>
+                                    </Badge>
+                                </Left>
+                                <Body>
+                                    <Text>{product.name}</Text>
+                                </Body>
+                                <Right>
+                                    <Text>{parseFloat(product.price).toLocaleString('de-DE') }</Text>
+                                </Right>
                             </ListItem>
                         ))}
                     </List>

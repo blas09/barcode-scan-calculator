@@ -4,6 +4,8 @@ import {Footer, FooterTab, Button, Text, Icon} from 'native-base';
 import barcodeConstants from '../store/constants/barcode.constant';
 
 export default function AppFooter({title, navigation}) {
+    const isProductSectionActive = title === barcodeConstants.PRODUCTS_TITLE || title === barcodeConstants.NEW_PRODUCT_TITLE;
+
     return (
         <Footer>
             <FooterTab>
@@ -11,8 +13,8 @@ export default function AppFooter({title, navigation}) {
                     <Icon active={title === barcodeConstants.HOME_TITLE} name="calculator" />
                     <Text>Calculator</Text>
                 </Button>
-                <Button active={title === barcodeConstants.PRODUCTS_TITLE} vertical onPress={() => navigation.navigate('Products')}>
-                    <Icon active={title === barcodeConstants.PRODUCTS_TITLE} name="cart" />
+                <Button active={isProductSectionActive} vertical onPress={() => navigation.navigate('Products')}>
+                    <Icon active={isProductSectionActive} name="cart" />
                     <Text>Products</Text>
                 </Button>
                 <Button active={title === barcodeConstants.ACCOUNT_TITLE} vertical onPress={() => navigation.navigate('Account')}>

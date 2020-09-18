@@ -1,7 +1,7 @@
 import React  from 'react';
 
-import Layout from "./Layout";
-import barcodeConstants from '../store/constants/barcode.constant';
+import Layout from "../Layout";
+import barcodeConstants from '../../store/constants/barcode.constant';
 import { StyleSheet, Dimensions } from 'react-native';
 import { Content, Button, Icon, Text } from 'native-base';
 
@@ -9,7 +9,7 @@ export default function Products({navigation}) {
     return (
         <Layout title={barcodeConstants.PRODUCTS_TITLE} navigation={navigation}>
             <Content contentContainerStyle={styles.content}>
-                <Button iconLeft block primary large>
+                <Button iconLeft block primary large onPress={() => navigation.navigate('NewProduct')}>
                     <Icon name='save' />
                     <Text>New Product</Text>
                 </Button>

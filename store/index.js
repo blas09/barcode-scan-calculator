@@ -4,6 +4,7 @@ import { createLogger } from 'redux-logger';
 import { persistStore, persistReducer } from 'redux-persist';
 import barcodeReducer from "./reducers/barcode.reducer";
 import authReducer from "./reducers/auth.reducer";
+import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 
 const rootReducer = combineReducers({
     barcode: barcodeReducer,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
 const persistConfig = {
     key: 'root',
     storage: AsyncStorage,
+    stateReconciler: autoMergeLevel2,
     whitelist: [
         'barcode',
     ],

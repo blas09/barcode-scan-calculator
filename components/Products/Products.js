@@ -9,13 +9,13 @@ export default function Products({navigation}) {
     return (
         <Layout title={barcodeConstants.PRODUCTS_TITLE} navigation={navigation}>
             <Content contentContainerStyle={styles.content}>
-                <Button iconLeft block primary large onPress={() => navigation.navigate('NewProduct')}>
+                <Button iconLeft block primary large onPress={() => navigation.navigate('ProcessProduct')}>
                     <Icon name='save' />
                     <Text>New Product</Text>
                 </Button>
-                <Button iconLeft block primary large>
+                <Button iconLeft block primary large onPress={() => navigation.navigate('ProcessProduct', { readOnly: true })}>
                     <Icon name='search' />
-                    <Text>See Product</Text>
+                    <Text>Find Product</Text>
                 </Button>
             </Content>
         </Layout>

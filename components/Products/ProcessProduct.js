@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import {Text, Button, View, Content, Item, Input, Form, Label } from 'native-base';
+import { Text, Button, View, Content, Item, Input, Form, Label } from 'native-base';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import barcodeConstants from "../../store/constants/barcode.constant";
 import { saveProduct } from "../../store/actions/barcode.action";
@@ -8,11 +8,12 @@ import Layout from "../Layout";
 import { StyleSheet } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
-export default function NewProduct({navigation}) {
+export default function ProcessProduct({ route, navigation }) {
     const [hasPermission, setHasPermission] = useState(null);
     const [scanned, setScanned] = useState(false);
     const dispatch = useDispatch();
     const products = useSelector(state => state.barcode.products);
+    const readOnly = navigation.getParam('readOnly') || false;
 
     //Product attributes
     const [barcode, setBarcode] = useState('');
@@ -62,16 +63,9 @@ export default function NewProduct({navigation}) {
                     </View> :
                     <Form style={styles.form}>
                         <Item style={styles.item} stackedLabel>
-                            <Label>Barcode</Label>
-                            <Input
-                                disabled
-                                value={barcode}
-                            />
-                        </Item>
-
-                        <Item style={styles.item} stackedLabel>
                             <Label>Name</Label>
                             <Input
+                                disabled={readOnly}
                                 value={name}
                                 onChangeText={name => setName(name)}
                                 autoCorrect={false}
@@ -81,6 +75,7 @@ export default function NewProduct({navigation}) {
                         <Item style={styles.item} stackedLabel>
                             <Label>Price</Label>
                             <Input
+                                disabled={readOnly}
                                 value={price}
                                 onChangeText={price => setPrice(price)}
                                 keyboardType="number-pad"

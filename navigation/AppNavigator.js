@@ -4,7 +4,7 @@ import { createAppContainer } from "react-navigation";
 import HomeScreen from "../screens/HomeScreen";
 import ProductsScreen from "../screens/Products/ProductsScreen";
 import AccountScreen from "../screens/AccountScreen";
-import NewProductsScreen from "../screens/Products/NewProductsScreen";
+import ProcessProductScreen from "../screens/Products/ProcessProductScreen";
 
 const AppNavigator = createStackNavigator({
     Home: {
@@ -19,8 +19,8 @@ const AppNavigator = createStackNavigator({
         screen: AccountScreen,
         navigationOptions: { headerShown: false }
     },
-    NewProduct: {
-        screen: NewProductsScreen,
+    ProcessProduct: {
+        screen: ProcessProductScreen,
         navigationOptions: { headerShown: false }
     }
 });

@@ -5,7 +5,7 @@ import { BarCodeScanner } from 'expo-barcode-scanner';
 import barcodeConstants from "../../store/constants/barcode.constant";
 import { saveProduct } from "../../store/actions/barcode.action";
 import Layout from "../Layout";
-import { Dimensions, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function NewProduct({navigation}) {
@@ -28,7 +28,7 @@ export default function NewProduct({navigation}) {
 
     const handleBarCodeScanned = ({ type, data }) => {
         const product = products.filter(storedProduct => storedProduct.barcode === data);
-        if (product !== null) {
+        if (product.length === 1) {
             setName(product[0].name);
             setPrice(product[0].price);
         }
@@ -54,12 +54,7 @@ export default function NewProduct({navigation}) {
         <Layout title={barcodeConstants.NEW_PRODUCT_TITLE} navigation={navigation}>
             <Content contentContainerStyle={scanned ? styles.contentScanned : styles.content}>
                 {!scanned ?
-                    <View
-                        style={{
-                            flex: 1,
-                            flexDirection: 'column',
-                            justifyContent: 'flex-end',
-                        }}>
+                    <View style={{flex: 1}}>
                         <BarCodeScanner
                             onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
                             style={StyleSheet.absoluteFillObject}
@@ -79,6 +74,7 @@ export default function NewProduct({navigation}) {
                             <Input
                                 value={name}
                                 onChangeText={name => setName(name)}
+                                autoCorrect={false}
                             />
                         </Item>
 
@@ -107,15 +103,11 @@ const styles = StyleSheet.create({
     },
     content: {
         flex: 1,
-        justifyContent: 'space-around',
-        alignSelf: 'center',
-        width: '80%',
-        marginVertical: Dimensions.get('window').height / 10,
     },
     contentScanned: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     item: {
         marginBottom: 10,

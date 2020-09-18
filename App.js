@@ -4,7 +4,7 @@ import { AppLoading } from 'expo';
 import * as Font from 'expo-font';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
-import { store, persistor } from './store/store';
+import { store, persistor } from './store';
 import Router from "./navigation/Router";
 
 const fetchFonts = () => {
@@ -15,16 +15,16 @@ const fetchFonts = () => {
 }
 
 export default function App() {
-  const [isReady, setIsReady] = useState(false);
+    const [isReady, setIsReady] = useState(false);
 
-  if (!isReady) {
-      return (
-          <AppLoading
-              startAsync={fetchFonts}
-              onFinish={() => setIsReady(true)}
-          />
-      );
-  }
+    if (!isReady) {
+        return (
+            <AppLoading
+                startAsync={fetchFonts}
+                onFinish={() => setIsReady(true)}
+            />
+        );
+    }
 
     return (
         <Provider store={store}>

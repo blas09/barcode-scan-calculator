@@ -2,6 +2,7 @@ import barcodeConstants from '../constants/barcode.constant'
 
 const initialState = {
     initiated: false,
+    logged: false,
     user: {},
 }
 
@@ -10,9 +11,9 @@ const barcodeReducer = (state = initialState, action) => {
         case barcodeConstants.SET_REGISTER:
             return { ...state, user: action.data, initiated: true };
         case barcodeConstants.SET_LOGGED_IN:
-            return { ...state, user: {...state.user, token: action.token} }
+            return { ...state, logged: true }
         default:
-            return { ...state };
+            return state;
     }
 }
 

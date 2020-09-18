@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 
 import { Dimensions, Image, StyleSheet, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { Button, Container, Content, Form, Item, Input, Text } from 'native-base';
-import { login } from "../store/actions/barcode.action";
-import {useDispatch, useSelector} from "react-redux";
-import View from "react-native-web/src/exports/View";
+import { login } from "../store/actions/auth.action";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function Login() {
     const [password, setPassword] = useState('');

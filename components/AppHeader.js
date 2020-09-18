@@ -8,7 +8,7 @@ export default function AppHeader({title}) {
         <Header>
             <Left style={styles.left} />
             <Body style={styles.body}>
-                <Title style={styles.title}>{title}</Title>
+                <Title style={styles.title}>{title.toUpperCase()}</Title>
             </Body>
             <Right style={styles.right} />
         </Header>
@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     body: {
-        flex: 1,
+        flex: 2,
     },
     right: {
         flex: 1,

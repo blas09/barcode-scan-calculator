@@ -7,7 +7,7 @@ export default function Layout({title, navigation, children}) {
     return (
         <Container>
             <AppHeader title={title} />
-            <Content>{children}</Content>
+            {children}
             <AppFooter title={title} navigation={navigation} />
         </Container>
     );

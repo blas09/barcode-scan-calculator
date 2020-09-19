@@ -13,6 +13,7 @@ export default function ProcessCalculator({ route, navigation }) {
     const [scanned, setScanned] = useState(false);
     const [showScanner, setShowScanner] = useState(true);
     const [purchasedProducts, setPurchasedProducts] = useState([]);
+    const [amountToScan, setAmountToScan] = useState(1);
 
     const dispatch = useDispatch();
     const products = useSelector(state => state.barcode.products);
@@ -25,8 +26,9 @@ export default function ProcessCalculator({ route, navigation }) {
     }, []);
 
     const handleBarCodeScanned = ({ type, data }) => {
-        setScanned(true);
         Vibration.vibrate();
+        setScanned(true);
+        setAmountToScan(1);
 
         //Pauses the scan reading for one sec.
         setTimeout(() => {
@@ -39,9 +41,9 @@ export default function ProcessCalculator({ route, navigation }) {
         const productIndex = purchasedProducts.findIndex(product => product.barcode === purchasedProduct.barcode);
 
         if (productIndex >= 0) {
-            purchasedProductsCopy[productIndex] = {...purchasedProductsCopy[productIndex], amount: purchasedProductsCopy[productIndex].amount + 1};
+            purchasedProductsCopy[productIndex] = {...purchasedProductsCopy[productIndex], amount: purchasedProductsCopy[productIndex].amount + amountToScan};
         } else {
-            purchasedProductsCopy.push({...purchasedProduct, amount: 1});
+            purchasedProductsCopy.push({...purchasedProduct, amount: amountToScan});
         }
 
         //save the new purchase state.
@@ -69,13 +71,13 @@ export default function ProcessCalculator({ route, navigation }) {
                         style={StyleSheet.absoluteFillObject}
                     />
                     <View style={styles.buttonContainer}>
-                        <Button success small style={styles.button}>
+                        <Button success small style={styles.button} onPress={() => setAmountToScan(prev => prev + 1)}>
                             <Icon name='arrow-up' />
                         </Button>
                         <Badge style={styles.badge}>
-                            <Text>1</Text>
+                            <Text>{amountToScan}</Text>
                         </Badge>
-                        <Button success small style={styles.button}>
+                        <Button success small style={styles.button} onPress={() => setAmountToScan(prev => prev > 1 ? prev - 1 : prev)}>
                             <Icon name='arrow-down' />
                         </Button>
                     </View>

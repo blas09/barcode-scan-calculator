@@ -5,7 +5,7 @@ import { BarCodeScanner } from 'expo-barcode-scanner';
 import barcodeConstants from "../../store/constants/barcode.constant";
 import { saveProduct } from "../../store/actions/barcode.action";
 import Layout from "../Layout";
-import { StyleSheet, Vibration } from "react-native";
+import { StyleSheet, Vibration, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function ProcessCalculator({ route, navigation }) {
@@ -68,6 +68,17 @@ export default function ProcessCalculator({ route, navigation }) {
                         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
                         style={StyleSheet.absoluteFillObject}
                     />
+                    <View style={styles.buttonContainer}>
+                        <Button success small style={styles.button}>
+                            <Icon name='arrow-up' />
+                        </Button>
+                        <Badge style={styles.badge}>
+                            <Text>1</Text>
+                        </Badge>
+                        <Button success small style={styles.button}>
+                            <Icon name='arrow-down' />
+                        </Button>
+                    </View>
                     <Button success rounded large style={styles.checkButton} onPress={endCalculationHandler}>
                         <Icon name='checkmark' />
                     </Button>
@@ -128,8 +139,23 @@ const styles = StyleSheet.create({
     },
     checkButton: {
         marginRight: 50,
-        marginBottom: 50,
+        marginBottom: 30,
         alignSelf: 'flex-end',
         padding: 10,
-    }
+    },
+    buttonContainer: {
+        alignSelf: 'flex-end',
+        marginRight: 50,
+        marginTop: 30,
+        flex: 1,
+    },
+    button: {
+        paddingVertical: 5,
+    },
+    badge: {
+        height: 40,
+        width: 40,
+        marginVertical: 10,
+        alignSelf: 'center'
+    },
 });

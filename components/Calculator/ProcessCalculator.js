@@ -4,7 +4,7 @@ import { Text, List, ListItem, Icon, Content, Button, Badge, Left, Body, Right }
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import barcodeConstants from "../../store/constants/barcode.constant";
 import Layout from "../Layout";
-import { StyleSheet, Vibration, View } from "react-native";
+import { StyleSheet, Vibration, View, ScrollView } from "react-native";
 import { useSelector } from "react-redux";
 
 export default function ProcessCalculator({ route, navigation }) {
@@ -82,7 +82,7 @@ export default function ProcessCalculator({ route, navigation }) {
                         <ListItem itemDivider>
                             <Left style={{flex: 1}}><Text>TOTAL</Text></Left>
                             <Body></Body>
-                            <Right style={{flex: 1}}>
+                            <Right style={{flex: 1, marginRight: 6}}>
                                 <Text>
                                     {
                                         purchasedProducts
@@ -92,6 +92,7 @@ export default function ProcessCalculator({ route, navigation }) {
                                 </Text>
                             </Right>
                         </ListItem>
+                        <ScrollView>
                         {purchasedProducts.map(product => (
                             <ListItem icon key={product.barcode}>
                                 <Left>
@@ -107,6 +108,7 @@ export default function ProcessCalculator({ route, navigation }) {
                                 </Right>
                             </ListItem>
                         ))}
+                        </ScrollView>
                     </List>
                 </Content>
             }

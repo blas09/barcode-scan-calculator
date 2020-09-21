@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { Dimensions, Image, StyleSheet, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { Button, Container, Content, Form, Item, Input, Text } from 'native-base';
-import { login } from "../store/actions/auth.action";
+import { login, setCameraPermission } from "../store/actions/auth.action";
 import { useDispatch, useSelector } from "react-redux";
+import { BarCodeScanner } from "expo-barcode-scanner";
 
 export default function Login() {
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const user = useSelector(state => state.barcode.user);
+    const hasCameraPermission = useSelector(state => state.auth.hasCameraPermission);
     const dispatch = useDispatch();
 
     const handleSubmit = () => {
@@ -20,6 +22,15 @@ export default function Login() {
             setPassword('');
         }
     }
+
+    useEffect(() => {
+        if (null === hasCameraPermission) {
+            (async () => {
+                const { status } = await BarCodeScanner.requestPermissionsAsync();
+                dispatch(setCameraPermission(status === 'granted'));
+            })();
+        }
+    }, []);
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>

@@ -9,23 +9,17 @@ import { StyleSheet, Vibration } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function ProcessProduct({ route, navigation }) {
-    const [hasPermission, setHasPermission] = useState(null);
     const [scanned, setScanned] = useState(false);
-    const dispatch = useDispatch();
+    const hasCameraPermission = useSelector(state => state.auth.hasCameraPermission);
     const products = useSelector(state => state.barcode.products);
+    const dispatch = useDispatch();
+
     const readOnly = navigation.getParam('readOnly') || false;
 
     //Product attributes
     const [barcode, setBarcode] = useState('');
     const [name, setName] = useState('');
     const [price, setPrice] = useState('');
-
-    useEffect(() => {
-        (async () => {
-            const { status } = await BarCodeScanner.requestPermissionsAsync();
-            setHasPermission(status === 'granted');
-        })();
-    }, []);
 
     const handleBarCodeScanned = ({ type, data }) => {
         const product = products.filter(storedProduct => storedProduct.barcode === data);
@@ -44,12 +38,13 @@ export default function ProcessProduct({ route, navigation }) {
         navigation.navigate('Products');
     }
 
-    if (hasPermission === null) {
-        return <Text>Requesting for camera permission</Text>;
-    }
-
-    if (hasPermission === false) {
-        return <Text>No access to camera</Text>;
+    if (hasCameraPermission === null) {
+        return (
+            <View style={{flex: 1, width: '80%', alignSelf: 'center', alignItems: 'center', justifyContent: 'center'}}>
+                <Text>No access to camera.</Text>
+                <Text>Give this app access to your camera.</Text>
+            </View>
+        );
     }
 
     return (

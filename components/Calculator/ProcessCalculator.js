@@ -1,29 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import { Text, List, ListItem, Icon, Content, Button, Badge, Left, Body, Right } from 'native-base';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import barcodeConstants from "../../store/constants/barcode.constant";
-import { saveProduct } from "../../store/actions/barcode.action";
 import Layout from "../Layout";
 import { StyleSheet, Vibration, View } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 export default function ProcessCalculator({ route, navigation }) {
-    const [hasPermission, setHasPermission] = useState(null);
     const [scanned, setScanned] = useState(false);
     const [showScanner, setShowScanner] = useState(true);
     const [purchasedProducts, setPurchasedProducts] = useState([]);
     const [amountToScan, setAmountToScan] = useState(1);
 
-    const dispatch = useDispatch();
     const products = useSelector(state => state.barcode.products);
-
-    useEffect(() => {
-        (async () => {
-            const { status } = await BarCodeScanner.requestPermissionsAsync();
-            setHasPermission(status === 'granted');
-        })();
-    }, []);
+    const hasCameraPermission = useSelector(state => state.auth.hasCameraPermission);
 
     const handleBarCodeScanned = ({ type, data }) => {
         Vibration.vibrate();
@@ -54,12 +45,13 @@ export default function ProcessCalculator({ route, navigation }) {
         setShowScanner(false);
     }
 
-    if (hasPermission === null) {
-        return <Text>Requesting for camera permission</Text>;
-    }
-
-    if (hasPermission === false) {
-        return <Text>No access to camera</Text>;
+    if (hasCameraPermission === null) {
+        return (
+            <View style={{flex: 1, width: '80%', alignSelf: 'center', alignItems: 'center', justifyContent: 'center'}}>
+                <Text>No access to camera.</Text>
+                <Text>Give this app access to your camera.</Text>
+            </View>
+        );
     }
 
     return (

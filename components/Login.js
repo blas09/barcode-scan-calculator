@@ -5,6 +5,7 @@ import { Button, Container, Content, Form, Item, Input, Text } from 'native-base
 import { login, setCameraPermission } from "../store/actions/auth.action";
 import { useDispatch, useSelector } from "react-redux";
 import { BarCodeScanner } from "expo-barcode-scanner";
+import { runCrypto } from "../helper/Crypter";
 
 export default function Login() {
     const [password, setPassword] = useState('');
@@ -14,13 +15,15 @@ export default function Login() {
     const dispatch = useDispatch();
 
     const handleSubmit = () => {
-        if (user.password === password) {
-            setErrorMessage('');
-            dispatch(login());
-        } else {
-            setErrorMessage('Password invalid.');
-            setPassword('');
-        }
+        runCrypto(password).then(cryptedPass => {
+            if (user.password === cryptedPass) {
+                setErrorMessage('');
+                dispatch(login());
+            } else {
+                setErrorMessage('Password invalid.');
+                setPassword('');
+            }
+        });
     }
 
     useEffect(() => {

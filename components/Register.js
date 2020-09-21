@@ -5,6 +5,7 @@ import { Button, Container, Content, Form, Item, Input, Text } from 'native-base
 import { useForm, Controller } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { registerUser } from "../store/actions/barcode.action";
+import { runCrypto } from "../helper/Crypter";
 
 export default function Register() {
     const { control, handleSubmit, errors, watch } = useForm();
@@ -12,10 +13,12 @@ export default function Register() {
     let pwd = watch("password");
 
     const onSubmit = data => {
-        dispatch(registerUser({
-            username: data.username,
-            password: data.password,
-        }));
+        runCrypto(data.password).then(cryptedPass => {
+            dispatch(registerUser({
+                username: data.username,
+                password: cryptedPass,
+            }));
+        });
     }
 
     return (

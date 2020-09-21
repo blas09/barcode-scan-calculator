@@ -1,42 +1,45 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
-import { Text, Button, View, Content, Item, Input, Form, Label } from 'native-base';
+import { Text, Button, View, Content, Item, Input, Form, Label, Icon } from 'native-base';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import barcodeConstants from "../../store/constants/barcode.constant";
 import { saveProduct } from "../../store/actions/barcode.action";
 import Layout from "../Layout";
 import { StyleSheet, Vibration } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import { useForm, Controller } from "react-hook-form";
 
 export default function ProcessProduct({ route, navigation }) {
     const [scanned, setScanned] = useState(false);
     const hasCameraPermission = useSelector(state => state.auth.hasCameraPermission);
     const products = useSelector(state => state.barcode.products);
+    const { control, handleSubmit, errors, setValue, trigger } = useForm();
     const dispatch = useDispatch();
 
     const readOnly = navigation.getParam('readOnly') || false;
 
     //Product attributes
     const [barcode, setBarcode] = useState('');
-    const [name, setName] = useState('');
-    const [price, setPrice] = useState('');
+
+    const onSubmit = ({ name, price }) => {
+        dispatch(saveProduct({ barcode, name, price }));
+        navigation.navigate('Products');
+    }
 
     const handleBarCodeScanned = ({ type, data }) => {
         const product = products.filter(storedProduct => storedProduct.barcode === data);
         if (product.length === 1) {
-            setName(product[0].name);
-            setPrice(product[0].price);
+            trigger()
+                .then(res => {
+                    setValue('name', product[0].name);
+                    setValue('price', product[0].price);
+                });
         }
 
         setBarcode(data);
         setScanned(true);
         Vibration.vibrate();
     };
-
-    const onSaveHandler = () => {
-        dispatch(saveProduct({ barcode, name, price }));
-        navigation.navigate('Products');
-    }
 
     if (hasCameraPermission === null) {
         return (
@@ -48,7 +51,7 @@ export default function ProcessProduct({ route, navigation }) {
     }
 
     return (
-        <Layout title={barcodeConstants.NEW_PRODUCT_TITLE} navigation={navigation}>
+        <Layout title={!readOnly ? barcodeConstants.NEW_PRODUCT_TITLE : barcodeConstants.FIND_PRODUCT_TITLE} navigation={navigation}>
             <Content contentContainerStyle={scanned ? styles.contentScanned : styles.content}>
                 {!scanned ?
                     <View style={{flex: 1}}>
@@ -58,29 +61,52 @@ export default function ProcessProduct({ route, navigation }) {
                         />
                     </View> :
                     <Form style={styles.form}>
-                        <Item style={styles.item} stackedLabel>
-                            <Label>Name</Label>
-                            <Input
-                                disabled={readOnly}
-                                value={name}
-                                onChangeText={name => setName(name)}
-                                autoCorrect={false}
+                        <Item style={styles.item} regular error={errors.name && errors.name.message !== ''}>
+                            <Controller
+                                control={control}
+                                render={({ onChange, onBlur, value }) => (
+                                    <Input
+                                        placeholder="Name"
+                                        onBlur={onBlur}
+                                        onChangeText={value => onChange(value)}
+                                        value={value}
+                                        autoCorrect={false}
+                                        disabled={readOnly}
+                                    />
+                                )}
+                                name="name"
+                                rules={{ required: 'This field cannot be empty.' }}
+                                defaultValue=""
                             />
+                            {errors.name && <Icon name='close-circle' />}
                         </Item>
 
-                        <Item style={styles.item} stackedLabel>
-                            <Label>Price</Label>
-                            <Input
-                                disabled={readOnly}
-                                value={price}
-                                onChangeText={price => setPrice(price)}
-                                keyboardType="number-pad"
+                        <Item style={styles.item} regular error={errors.price && errors.price.message !== ''}>
+                            <Controller
+                                control={control}
+                                render={({ onChange, onBlur, value }) => (
+                                    <Input
+                                        placeholder="Price"
+                                        onBlur={onBlur}
+                                        onChangeText={value => onChange(value)}
+                                        value={value}
+                                        keyboardType="number-pad"
+                                        disabled={readOnly}
+                                    />
+                                )}
+                                name="price"
+                                rules={{ required: 'This field cannot be empty.' }}
+                                defaultValue=""
                             />
+                            {errors.price && <Icon name='close-circle' />}
                         </Item>
 
-                        <Button block onPress={onSaveHandler}>
-                            <Text>Save</Text>
-                        </Button>
+                        {!readOnly ?
+                            <Button style={styles.submitBtn} block onPress={handleSubmit(onSubmit)}>
+                                <Text>Save</Text>
+                            </Button> :
+                            null
+                        }
                     </Form>
                 }
             </Content>
@@ -103,4 +129,7 @@ const styles = StyleSheet.create({
     item: {
         marginBottom: 10,
     },
+    submitBtn: {
+        marginVertical: 20,
+    }
 });

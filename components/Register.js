@@ -13,10 +13,10 @@ export default function Register() {
     let pwd = watch("password");
 
     const onSubmit = data => {
-        runCrypto(data.password).then(cryptedPass => {
+        runCrypto(data.password).then(encryptedPass => {
             dispatch(registerUser({
                 username: data.username,
-                password: cryptedPass,
+                password: encryptedPass,
             }));
         });
     }

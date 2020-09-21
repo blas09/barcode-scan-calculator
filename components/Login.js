@@ -15,8 +15,8 @@ export default function Login() {
     const dispatch = useDispatch();
 
     const handleSubmit = () => {
-        runCrypto(password).then(cryptedPass => {
-            if (user.password === cryptedPass) {
+        runCrypto(password).then(encryptedPass => {
+            if (user.password === encryptedPass) {
                 setErrorMessage('');
                 dispatch(login());
             } else {

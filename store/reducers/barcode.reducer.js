@@ -16,6 +16,8 @@ const barcodeReducer = (state = initialState, action) => {
             products.push(action.data);
 
             return { ...state, products: products }
+        case barcodeConstants.UPDATE_REGISTER:
+            return { ...state, user: {...state.user, ...action.data} };
         default:
             return state;
     }

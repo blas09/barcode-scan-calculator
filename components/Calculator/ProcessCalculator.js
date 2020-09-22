@@ -6,8 +6,11 @@ import barcodeConstants from "../../store/constants/barcode.constant";
 import Layout from "../Layout";
 import { StyleSheet, Vibration, View, ScrollView } from "react-native";
 import { useSelector } from "react-redux";
+import { useKeepAwake } from "expo-keep-awake";
 
 export default function ProcessCalculator({ route, navigation }) {
+    useKeepAwake();
+
     const [scanned, setScanned] = useState(false);
     const [showScanner, setShowScanner] = useState(true);
     const [purchasedProducts, setPurchasedProducts] = useState([]);

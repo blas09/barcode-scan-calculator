@@ -7,3 +7,7 @@ export const registerUser = data => {
 export const saveProduct = data => {
     return { type: barcodeConstants.SET_PRODUCT, data };
 }
+
+export const updateUser = data => {
+    return { type: barcodeConstants.UPDATE_REGISTER, data };
+}

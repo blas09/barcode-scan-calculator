@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Text, Button, View, Content, Item, Input, Form, Label, Icon } from 'native-base';
+import { Text, Button, View, Content, Item, Input, Form, Icon } from 'native-base';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import barcodeConstants from "../../store/constants/barcode.constant";
 import { saveProduct } from "../../store/actions/barcode.action";
@@ -9,17 +9,15 @@ import { StyleSheet, Vibration } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm, Controller } from "react-hook-form";
 
-export default function ProcessProduct({ route, navigation }) {
+export default function ProcessProduct({ navigation }) {
     const [scanned, setScanned] = useState(false);
+    const [barcode, setBarcode] = useState('');
     const hasCameraPermission = useSelector(state => state.auth.hasCameraPermission);
     const products = useSelector(state => state.barcode.products);
     const { control, handleSubmit, errors, setValue, trigger } = useForm();
     const dispatch = useDispatch();
 
     const readOnly = navigation.getParam('readOnly') || false;
-
-    //Product attributes
-    const [barcode, setBarcode] = useState('');
 
     const onSubmit = ({ name, price }) => {
         dispatch(saveProduct({ barcode, name, price }));

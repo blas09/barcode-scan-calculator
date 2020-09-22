@@ -7,4 +7,5 @@ export default {
 
     SET_REGISTER: 'SET_REGISTER',
     SET_PRODUCT: 'SET_PRODUCT',
+    UPDATE_REGISTER: 'UPDATE_REGISTER',
 };

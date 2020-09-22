@@ -6,6 +6,13 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from './store';
 import Router from "./navigation/Router";
+import * as Localization from 'expo-localization';
+import i18n from 'i18n-js';
+import translations from "./helper/Translation";
+
+i18n.translations = translations;
+i18n.locale = Localization.locale;
+i18n.fallbacks = true;
 
 const fetchFonts = () => {
     return Font.loadAsync({

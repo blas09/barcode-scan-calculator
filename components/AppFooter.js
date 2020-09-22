@@ -1,25 +1,28 @@
 import React  from 'react';
 
 import {Footer, FooterTab, Button, Text, Icon} from 'native-base';
-import barcodeConstants from '../store/constants/barcode.constant';
+import i18n from 'i18n-js';
 
 export default function AppFooter({title, navigation}) {
-    const isProductSectionActive = title === barcodeConstants.PRODUCTS_TITLE || title === barcodeConstants.NEW_PRODUCT_TITLE;
+    const isProductSectionActive =
+        title === i18n.t('products_title') ||
+        title === i18n.t('new_product_title') ||
+        title === i18n.t('find_product_title');
 
     return (
         <Footer>
             <FooterTab>
-                <Button active={title === barcodeConstants.HOME_TITLE} vertical onPress={() => navigation.navigate('Calculator')}>
-                    <Icon active={title === barcodeConstants.HOME_TITLE} name="calculator" />
-                    <Text>Calculator</Text>
+                <Button active={title === i18n.t('home_title')} vertical onPress={() => navigation.navigate('Calculator')}>
+                    <Icon active={title === i18n.t('home_title')} name="calculator" />
+                    <Text>{i18n.t('home_title')}</Text>
                 </Button>
                 <Button active={isProductSectionActive} vertical onPress={() => navigation.navigate('Products')}>
                     <Icon active={isProductSectionActive} name="cart" />
-                    <Text>Products</Text>
+                    <Text>{i18n.t('products_title')}</Text>
                 </Button>
-                <Button active={title === barcodeConstants.ACCOUNT_TITLE} vertical onPress={() => navigation.navigate('Account')}>
-                    <Icon active={title === barcodeConstants.ACCOUNT_TITLE} name="person" />
-                    <Text>Account</Text>
+                <Button active={title === i18n.t('account_title')} vertical onPress={() => navigation.navigate('Account')}>
+                    <Icon active={title === i18n.t('account_title')} name="person" />
+                    <Text>{i18n.t('account_title')}</Text>
                 </Button>
             </FooterTab>
         </Footer>

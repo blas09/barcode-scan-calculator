@@ -1,17 +1,17 @@
 import React  from 'react';
 
 import Layout from "../Layout";
-import barcodeConstants from '../../store/constants/barcode.constant';
 import {Button, Content, Icon, Text} from "native-base";
 import {Dimensions, StyleSheet} from "react-native";
+import i18n from 'i18n-js';
 
 export default function CalculatorMenu({navigation}) {
     return (
-        <Layout title={barcodeConstants.HOME_TITLE} navigation={navigation}>
+        <Layout title={i18n.t('home_title')} navigation={navigation}>
             <Content contentContainerStyle={styles.content}>
                 <Button iconLeft block primary large onPress={() => navigation.navigate('ProcessCalculator')}>
                     <Icon name='calculator' />
-                    <Text>New</Text>
+                    <Text>{i18n.t('new')}</Text>
                 </Button>
             </Content>
         </Layout>

@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 
 import { Text, Button, View, Content, Item, Input, Form, Icon } from 'native-base';
 import { BarCodeScanner } from 'expo-barcode-scanner';
-import barcodeConstants from "../../store/constants/barcode.constant";
 import { saveProduct } from "../../store/actions/barcode.action";
 import Layout from "../Layout";
 import { StyleSheet, Vibration } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm, Controller } from "react-hook-form";
+import i18n from 'i18n-js';
 
 export default function ProcessProduct({ navigation }) {
     const [scanned, setScanned] = useState(false);
@@ -28,7 +28,7 @@ export default function ProcessProduct({ navigation }) {
         const product = products.filter(storedProduct => storedProduct.barcode === data);
         if (product.length === 1) {
             trigger()
-                .then(res => {
+                .then(() => {
                     setValue('name', product[0].name);
                     setValue('price', product[0].price);
                 });
@@ -39,17 +39,17 @@ export default function ProcessProduct({ navigation }) {
         Vibration.vibrate();
     };
 
-    if (hasCameraPermission === null) {
+    if (hasCameraPermission === false) {
         return (
             <View style={{flex: 1, width: '80%', alignSelf: 'center', alignItems: 'center', justifyContent: 'center'}}>
-                <Text>No access to camera.</Text>
-                <Text>Give this app access to your camera.</Text>
+                <Text>{i18n.t('camera_no_access')}</Text>
+                <Text>{i18n.t('camera_give_access')}</Text>
             </View>
         );
     }
 
     return (
-        <Layout title={!readOnly ? barcodeConstants.NEW_PRODUCT_TITLE : barcodeConstants.FIND_PRODUCT_TITLE} navigation={navigation}>
+        <Layout title={!readOnly ? i18n.t('new_product_title') : i18n.t('find_product_title')} navigation={navigation}>
             <Content contentContainerStyle={scanned ? styles.contentScanned : styles.content}>
                 {!scanned ?
                     <View style={{flex: 1}}>
@@ -64,7 +64,7 @@ export default function ProcessProduct({ navigation }) {
                                 control={control}
                                 render={({ onChange, onBlur, value }) => (
                                     <Input
-                                        placeholder="Name"
+                                        placeholder={i18n.t('name')}
                                         onBlur={onBlur}
                                         onChangeText={value => onChange(value)}
                                         value={value}
@@ -73,7 +73,7 @@ export default function ProcessProduct({ navigation }) {
                                     />
                                 )}
                                 name="name"
-                                rules={{ required: 'This field cannot be empty.' }}
+                                rules={{ required: i18n.t('rules.not_empty') }}
                                 defaultValue=""
                             />
                             {errors.name && <Icon name='close-circle' />}
@@ -84,7 +84,7 @@ export default function ProcessProduct({ navigation }) {
                                 control={control}
                                 render={({ onChange, onBlur, value }) => (
                                     <Input
-                                        placeholder="Price"
+                                        placeholder={i18n.t('price')}
                                         onBlur={onBlur}
                                         onChangeText={value => onChange(value)}
                                         value={value}
@@ -93,7 +93,7 @@ export default function ProcessProduct({ navigation }) {
                                     />
                                 )}
                                 name="price"
-                                rules={{ required: 'This field cannot be empty.' }}
+                                rules={{ required: i18n.t('rules.not_empty') }}
                                 defaultValue=""
                             />
                             {errors.price && <Icon name='close-circle' />}
@@ -101,7 +101,7 @@ export default function ProcessProduct({ navigation }) {
 
                         {!readOnly ?
                             <Button style={styles.submitBtn} block onPress={handleSubmit(onSubmit)}>
-                                <Text>Save</Text>
+                                <Text>{i18n.t('save')}</Text>
                             </Button> :
                             null
                         }

@@ -6,6 +6,7 @@ import { login, setCameraPermission } from "../store/actions/auth.action";
 import { useDispatch, useSelector } from "react-redux";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import { runCrypto } from "../helper/Crypter";
+import i18n from 'i18n-js';
 
 export default function Login() {
     const [password, setPassword] = useState('');
@@ -20,7 +21,7 @@ export default function Login() {
                 setErrorMessage('');
                 dispatch(login());
             } else {
-                setErrorMessage('Password invalid.');
+                setErrorMessage(i18n.t('password_invalid'));
                 setPassword('');
             }
         });
@@ -46,7 +47,7 @@ export default function Login() {
                     <Form style={styles.form}>
                         <Item style={styles.item} regular>
                             <Input
-                                placeholder='Password'
+                                placeholder={i18n.t('password')}
                                 value={password}
                                 onChangeText={password => setPassword(password)}
                                 keyboardType="number-pad"
@@ -56,7 +57,7 @@ export default function Login() {
                         <Text style={styles.errorMessage}>{errorMessage}</Text>
 
                         <Button block disabled={password.length < 5} onPress={handleSubmit}>
-                            <Text>Log in</Text>
+                            <Text>{i18n.t('login')}</Text>
                         </Button>
                     </Form>
                 </Content>

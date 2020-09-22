@@ -1,6 +1,6 @@
 import React from 'react';
 import AppHeader from "./AppHeader";
-import {Container, Content} from "native-base";
+import {Container} from "native-base";
 import AppFooter from "./AppFooter";
 
 export default function Layout({title, navigation, children}) {

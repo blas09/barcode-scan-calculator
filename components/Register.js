@@ -6,6 +6,7 @@ import { useForm, Controller } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { registerUser } from "../store/actions/barcode.action";
 import { runCrypto } from "../helper/Crypter";
+import i18n from 'i18n-js';
 
 export default function Register() {
     const { control, handleSubmit, errors, watch } = useForm();
@@ -32,14 +33,14 @@ export default function Register() {
                             control={control}
                             render={({ onChange, onBlur, value }) => (
                                 <Input
-                                    placeholder='Username'
+                                    placeholder={i18n.t('username')}
                                     onBlur={onBlur}
                                     onChangeText={value => onChange(value)}
                                     value={value}
                                 />
                             )}
                             name="username"
-                            rules={{ required: 'This field cannot be empty.' }}
+                            rules={{ required: i18n.t('rules.not_empty') }}
                             defaultValue=""
                         />
                     </Item>
@@ -49,7 +50,7 @@ export default function Register() {
                             control={control}
                             render={({ onChange, onBlur, value }) => (
                                 <Input
-                                    placeholder='Password'
+                                    placeholder={i18n.t('password')}
                                     onBlur={onBlur}
                                     onChangeText={value => onChange(value)}
                                     value={value}
@@ -59,8 +60,8 @@ export default function Register() {
                             )}
                             name="password"
                             rules={{
-                                required: 'This field cannot be empty.',
-                                minLength: {value: 5, message: 'Password must have at least 5 characters.'},
+                                required: i18n.t('not_empty'),
+                                minLength: {value: 5, message: i18n.t('rules.min_length_5')},
                             }}
                             defaultValue=""
                         />
@@ -71,7 +72,7 @@ export default function Register() {
                             control={control}
                             render={({ onChange, onBlur, value }) => (
                                 <Input
-                                    placeholder='Confirm Password'
+                                    placeholder={i18n.t('confirm_password')}
                                     onBlur={onBlur}
                                     onChangeText={value => onChange(value)}
                                     value={value}
@@ -81,16 +82,16 @@ export default function Register() {
                             )}
                             name="confirmedPassword"
                             rules={{
-                                required: 'This field cannot be empty.',
-                                minLength: {value: 5, message: 'Password must have at least 5 characters.'},
-                                validate: value => value === pwd || "Passwords don't match.",
+                                required: i18n.t('rules.not_empty'),
+                                minLength: {value: 5, message: i18n.t('rules.min_length_5')},
+                                validate: value => value === pwd || i18n.t('rules.pass_no_match'),
                             }}
                             defaultValue=""
                         />
                     </Item>
                     <Text style={styles.errorMessage}>{errors.confirmedPassword && errors.confirmedPassword.message}</Text>
                     <Button block onPress={handleSubmit(onSubmit)}>
-                        <Text>Register</Text>
+                        <Text>{i18n.t('register')}</Text>
                     </Button>
                 </Form>
             </Content>

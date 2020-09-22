@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 
 import { Text, List, ListItem, Icon, Content, Button, Badge, Left, Body, Right } from 'native-base';
 import { BarCodeScanner } from 'expo-barcode-scanner';
-import barcodeConstants from "../../store/constants/barcode.constant";
 import Layout from "../Layout";
 import { StyleSheet, Vibration, View, ScrollView } from "react-native";
 import { useSelector } from "react-redux";
 import { useKeepAwake } from "expo-keep-awake";
+import i18n from 'i18n-js';
 
 export default function ProcessCalculator({ route, navigation }) {
     useKeepAwake();
@@ -48,17 +48,17 @@ export default function ProcessCalculator({ route, navigation }) {
         setShowScanner(false);
     }
 
-    if (hasCameraPermission === null) {
+    if (hasCameraPermission === false) {
         return (
             <View style={{flex: 1, width: '80%', alignSelf: 'center', alignItems: 'center', justifyContent: 'center'}}>
-                <Text>No access to camera.</Text>
-                <Text>Give this app access to your camera.</Text>
+                <Text>{i18n.t('camera_no_access')}</Text>
+                <Text>{i18n.t('camera_give_access')}</Text>
             </View>
         );
     }
 
     return (
-        <Layout navigation={navigation} title={barcodeConstants.HOME_TITLE}>
+        <Layout navigation={navigation} title={i18n.t('home_title')}>
             {showScanner ?
                 <Content contentContainerStyle={styles.content}>
                     <BarCodeScanner
@@ -83,7 +83,7 @@ export default function ProcessCalculator({ route, navigation }) {
                 <Content contentContainerStyle={styles.contentList}>
                     <List>
                         <ListItem itemDivider>
-                            <Left style={{flex: 1}}><Text>TOTAL</Text></Left>
+                            <Left style={{flex: 1}}><Text>{i18n.t('total')}</Text></Left>
                             <Body></Body>
                             <Right style={{flex: 1, marginRight: 6}}>
                                 <Text>

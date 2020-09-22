@@ -1,13 +1,13 @@
 import React, { useEffect }  from 'react';
 
 import Layout from "./Layout";
-import barcodeConstants from "../store/constants/barcode.constant";
 import { Button, Content, Form, Input, Item, Text } from "native-base";
 import { StyleSheet, Alert } from "react-native";
 import { Controller, useForm } from "react-hook-form";
 import { runCrypto } from "../helper/Crypter";
 import { updateUser } from "../store/actions/barcode.action";
 import { useDispatch, useSelector } from "react-redux";
+import i18n from 'i18n-js';
 
 export default function Account({ navigation }) {
     const { control, handleSubmit, errors, setValue, watch } = useForm();
@@ -27,9 +27,9 @@ export default function Account({ navigation }) {
             }));
 
             Alert.alert(
-                "Success",
-                "User info was successfully updated.",
-                [{ text: "OK"}],
+                i18n.t('success'),
+                i18n.t('user_updated'),
+                [{ text: "OK" }],
                 { cancelable: false }
             );
 
@@ -42,7 +42,7 @@ export default function Account({ navigation }) {
     }
 
     return (
-        <Layout title={barcodeConstants.ACCOUNT_TITLE} navigation={navigation}>
+        <Layout title={i18n.t('account_title')} navigation={navigation}>
             <Content contentContainerStyle={styles.content}>
                 <Form style={styles.form}>
                     <Item regular>
@@ -50,14 +50,14 @@ export default function Account({ navigation }) {
                             control={control}
                             render={({ onChange, onBlur, value }) => (
                                 <Input
-                                    placeholder='Username'
+                                    placeholder={i18n.t('username')}
                                     onBlur={onBlur}
                                     onChangeText={value => onChange(value)}
                                     value={value}
                                 />
                             )}
                             name="username"
-                            rules={{ required: 'This field cannot be empty.' }}
+                            rules={{ required: i18n.t('rules.not_empty') }}
                             defaultValue=""
                         />
                     </Item>
@@ -67,7 +67,7 @@ export default function Account({ navigation }) {
                             control={control}
                             render={({ onChange, onBlur, value }) => (
                                 <Input
-                                    placeholder='Old Password'
+                                    placeholder={i18n.t('old_password')}
                                     onBlur={onBlur}
                                     onChangeText={value => onChange(value)}
                                     value={value}
@@ -77,8 +77,8 @@ export default function Account({ navigation }) {
                             )}
                             name="oldPassword"
                             rules={{
-                                required: 'This field cannot be empty.',
-                                minLength: {value: 5, message: 'Password must have at least 5 characters.'},
+                                required: i18n.t('rules.not_empty'),
+                                minLength: {value: 5, message: i18n.t('rules.min_length_5')},
                                 validate: async value => await checkOldPass(value).then(val => val === user.password) || "Password invalid.",
                             }}
                             defaultValue=""
@@ -90,7 +90,7 @@ export default function Account({ navigation }) {
                             control={control}
                             render={({ onChange, onBlur, value }) => (
                                 <Input
-                                    placeholder='New Password'
+                                    placeholder={i18n.t('new_password')}
                                     onBlur={onBlur}
                                     onChangeText={value => onChange(value)}
                                     value={value}
@@ -100,8 +100,8 @@ export default function Account({ navigation }) {
                             )}
                             name="newPassword"
                             rules={{
-                                required: 'This field cannot be empty.',
-                                minLength: {value: 5, message: 'Password must have at least 5 characters.'},
+                                required: i18n.t('rules.not_empty'),
+                                minLength: {value: 5, message: i18n.t('rules.min_length_5')},
                             }}
                             defaultValue=""
                         />
@@ -112,7 +112,7 @@ export default function Account({ navigation }) {
                             control={control}
                             render={({ onChange, onBlur, value }) => (
                                 <Input
-                                    placeholder='Confirm Password'
+                                    placeholder={i18n.t('confirm_password')}
                                     onBlur={onBlur}
                                     onChangeText={value => onChange(value)}
                                     value={value}
@@ -122,16 +122,16 @@ export default function Account({ navigation }) {
                             )}
                             name="confirmedPassword"
                             rules={{
-                                required: 'This field cannot be empty.',
-                                minLength: {value: 5, message: 'Password must have at least 5 characters.'},
-                                validate: value => value === pwd || "Passwords don't match.",
+                                required: i18n.t('rules.not_empty'),
+                                minLength: {value: 5, message: i18n.t('rules.min_length_5')},
+                                validate: value => value === pwd || i18n.t('pass_no_match'),
                             }}
                             defaultValue=""
                         />
                     </Item>
                     <Text style={styles.errorMessage}>{errors.confirmedPassword && errors.confirmedPassword.message}</Text>
                     <Button block onPress={handleSubmit(onSubmit)}>
-                        <Text>Register</Text>
+                        <Text>{i18n.t('update')}</Text>
                     </Button>
                 </Form>
             </Content>

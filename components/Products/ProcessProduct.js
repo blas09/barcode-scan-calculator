@@ -1,30 +1,30 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 
-import { Text, Button, View, Content, Item, Input, Form, Icon } from 'native-base';
-import { BarCodeScanner } from 'expo-barcode-scanner';
-import { saveProduct } from "../../store/actions/barcode.action";
+import {Text, Button, View, Content, Item, Input, Form, Icon} from 'native-base';
+import {BarCodeScanner} from 'expo-barcode-scanner';
+import {saveProduct} from "../../store/actions/barcode.action";
 import Layout from "../Layout";
-import { StyleSheet, Vibration } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
-import { useForm, Controller } from "react-hook-form";
+import {StyleSheet, Vibration} from "react-native";
+import {useDispatch, useSelector} from "react-redux";
+import {useForm, Controller} from "react-hook-form";
 import i18n from 'i18n-js';
 
-export default function ProcessProduct({ navigation }) {
+export default function ProcessProduct({navigation}) {
     const [scanned, setScanned] = useState(false);
     const [barcode, setBarcode] = useState('');
     const hasCameraPermission = useSelector(state => state.auth.hasCameraPermission);
     const products = useSelector(state => state.barcode.products);
-    const { control, handleSubmit, errors, setValue, trigger } = useForm();
+    const {control, handleSubmit, errors, setValue, trigger} = useForm();
     const dispatch = useDispatch();
 
     const readOnly = navigation.getParam('readOnly') || false;
 
-    const onSubmit = ({ name, price }) => {
-        dispatch(saveProduct({ barcode, name, price }));
+    const onSubmit = ({name, price}) => {
+        dispatch(saveProduct({barcode, name, price}));
         navigation.navigate('Products');
     }
 
-    const handleBarCodeScanned = ({ type, data }) => {
+    const handleBarCodeScanned = ({type, data}) => {
         const product = products.filter(storedProduct => storedProduct.barcode === data);
         if (product.length === 1) {
             trigger()
@@ -62,7 +62,7 @@ export default function ProcessProduct({ navigation }) {
                         <Item style={styles.item} regular error={errors.name && errors.name.message !== ''}>
                             <Controller
                                 control={control}
-                                render={({ onChange, onBlur, value }) => (
+                                render={({onChange, onBlur, value}) => (
                                     <Input
                                         placeholder={i18n.t('name')}
                                         onBlur={onBlur}
@@ -73,16 +73,16 @@ export default function ProcessProduct({ navigation }) {
                                     />
                                 )}
                                 name="name"
-                                rules={{ required: i18n.t('rules.not_empty') }}
+                                rules={{required: i18n.t('rules.not_empty')}}
                                 defaultValue=""
                             />
-                            {errors.name && <Icon name='close-circle' />}
+                            {errors.name && <Icon name='close-circle'/>}
                         </Item>
 
                         <Item style={styles.item} regular error={errors.price && errors.price.message !== ''}>
                             <Controller
                                 control={control}
-                                render={({ onChange, onBlur, value }) => (
+                                render={({onChange, onBlur, value}) => (
                                     <Input
                                         placeholder={i18n.t('price')}
                                         onBlur={onBlur}
@@ -93,10 +93,10 @@ export default function ProcessProduct({ navigation }) {
                                     />
                                 )}
                                 name="price"
-                                rules={{ required: i18n.t('rules.not_empty') }}
+                                rules={{required: i18n.t('rules.not_empty')}}
                                 defaultValue=""
                             />
-                            {errors.price && <Icon name='close-circle' />}
+                            {errors.price && <Icon name='close-circle'/>}
                         </Item>
 
                         {!readOnly ?

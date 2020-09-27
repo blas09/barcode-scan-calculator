@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 
-import { Text, List, ListItem, Icon, Content, Button, Badge, Left, Body, Right } from 'native-base';
-import { BarCodeScanner } from 'expo-barcode-scanner';
+import {Text, List, ListItem, Icon, Content, Button, Badge, Left, Body, Right} from 'native-base';
+import {BarCodeScanner} from 'expo-barcode-scanner';
 import Layout from "../Layout";
-import { StyleSheet, Vibration, View, ScrollView } from "react-native";
-import { useSelector } from "react-redux";
-import { useKeepAwake } from "expo-keep-awake";
+import {StyleSheet, Vibration, View, ScrollView} from "react-native";
+import {useSelector} from "react-redux";
+import {useKeepAwake} from "expo-keep-awake";
 import i18n from 'i18n-js';
 
-export default function ProcessCalculator({ route, navigation }) {
+export default function ProcessCalculator({route, navigation}) {
     useKeepAwake();
 
     const [scanned, setScanned] = useState(false);
@@ -19,7 +19,7 @@ export default function ProcessCalculator({ route, navigation }) {
     const products = useSelector(state => state.barcode.products);
     const hasCameraPermission = useSelector(state => state.auth.hasCameraPermission);
 
-    const handleBarCodeScanned = ({ type, data }) => {
+    const handleBarCodeScanned = ({type, data}) => {
         Vibration.vibrate();
         setScanned(true);
         setAmountToScan(1);
@@ -31,11 +31,14 @@ export default function ProcessCalculator({ route, navigation }) {
 
         //Merge new product into purchase.
         const purchasedProduct = products.filter(product => product.barcode === data).pop();
-        let purchasedProductsCopy = purchasedProducts.map(product => ({ ...product }));
+        let purchasedProductsCopy = purchasedProducts.map(product => ({...product}));
         const productIndex = purchasedProducts.findIndex(product => product.barcode === purchasedProduct.barcode);
 
         if (productIndex >= 0) {
-            purchasedProductsCopy[productIndex] = {...purchasedProductsCopy[productIndex], amount: purchasedProductsCopy[productIndex].amount + amountToScan};
+            purchasedProductsCopy[productIndex] = {
+                ...purchasedProductsCopy[productIndex],
+                amount: purchasedProductsCopy[productIndex].amount + amountToScan
+            };
         } else {
             purchasedProductsCopy.push({...purchasedProduct, amount: amountToScan});
         }
@@ -67,17 +70,18 @@ export default function ProcessCalculator({ route, navigation }) {
                     />
                     <View style={styles.buttonContainer}>
                         <Button success small style={styles.button} onPress={() => setAmountToScan(prev => prev + 1)}>
-                            <Icon name='arrow-up' />
+                            <Icon name='arrow-up'/>
                         </Button>
                         <Badge style={styles.badge}>
                             <Text>{amountToScan}</Text>
                         </Badge>
-                        <Button success small style={styles.button} onPress={() => setAmountToScan(prev => prev > 1 ? prev - 1 : prev)}>
-                            <Icon name='arrow-down' />
+                        <Button success small style={styles.button}
+                                onPress={() => setAmountToScan(prev => prev > 1 ? prev - 1 : prev)}>
+                            <Icon name='arrow-down'/>
                         </Button>
                     </View>
                     <Button success rounded large style={styles.checkButton} onPress={endCalculationHandler}>
-                        <Icon name='checkmark' />
+                        <Icon name='checkmark'/>
                     </Button>
                 </Content> :
                 <Content contentContainerStyle={styles.contentList}>
@@ -96,21 +100,21 @@ export default function ProcessCalculator({ route, navigation }) {
                             </Right>
                         </ListItem>
                         <ScrollView>
-                        {purchasedProducts.map(product => (
-                            <ListItem icon key={product.barcode}>
-                                <Left>
-                                    <Badge style={{backgroundColor: '#FF9501', alignSelf: 'center'}}>
-                                        <Text>{product.amount}</Text>
-                                    </Badge>
-                                </Left>
-                                <Body>
-                                    <Text>{product.name}</Text>
-                                </Body>
-                                <Right>
-                                    <Text>{parseFloat(product.price).toLocaleString('de-DE') }</Text>
-                                </Right>
-                            </ListItem>
-                        ))}
+                            {purchasedProducts.map(product => (
+                                <ListItem icon key={product.barcode}>
+                                    <Left>
+                                        <Badge style={{backgroundColor: '#FF9501', alignSelf: 'center'}}>
+                                            <Text>{product.amount}</Text>
+                                        </Badge>
+                                    </Left>
+                                    <Body>
+                                        <Text>{product.name}</Text>
+                                    </Body>
+                                    <Right>
+                                        <Text>{parseFloat(product.price).toLocaleString('de-DE')}</Text>
+                                    </Right>
+                                </ListItem>
+                            ))}
                         </ScrollView>
                     </List>
                 </Content>

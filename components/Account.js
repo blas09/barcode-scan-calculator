@@ -1,16 +1,16 @@
-import React, { useEffect }  from 'react';
+import React, {useEffect} from 'react';
 
 import Layout from "./Layout";
-import { Button, Content, Form, Input, Item, Text } from "native-base";
-import { StyleSheet, Alert } from "react-native";
-import { Controller, useForm } from "react-hook-form";
-import { runCrypto } from "../helper/Crypter";
-import { updateUser } from "../store/actions/barcode.action";
-import { useDispatch, useSelector } from "react-redux";
+import {Button, Content, Form, Input, Item, Text} from "native-base";
+import {StyleSheet, Alert} from "react-native";
+import {Controller, useForm} from "react-hook-form";
+import {runCrypto} from "../helper/Crypter";
+import {updateUser} from "../store/actions/barcode.action";
+import {useDispatch, useSelector} from "react-redux";
 import i18n from 'i18n-js';
 
-export default function Account({ navigation }) {
-    const { control, handleSubmit, errors, setValue, watch } = useForm();
+export default function Account({navigation}) {
+    const {control, handleSubmit, errors, setValue, watch} = useForm();
     const user = useSelector(state => state.barcode.user);
     const dispatch = useDispatch();
     let pwd = watch("newPassword");
@@ -29,8 +29,8 @@ export default function Account({ navigation }) {
             Alert.alert(
                 i18n.t('success'),
                 i18n.t('user_updated'),
-                [{ text: "OK" }],
-                { cancelable: false }
+                [{text: "OK"}],
+                {cancelable: false}
             );
 
             navigation.push('Account');
@@ -48,7 +48,7 @@ export default function Account({ navigation }) {
                     <Item regular>
                         <Controller
                             control={control}
-                            render={({ onChange, onBlur, value }) => (
+                            render={({onChange, onBlur, value}) => (
                                 <Input
                                     placeholder={i18n.t('username')}
                                     onBlur={onBlur}
@@ -57,7 +57,7 @@ export default function Account({ navigation }) {
                                 />
                             )}
                             name="username"
-                            rules={{ required: i18n.t('rules.not_empty') }}
+                            rules={{required: i18n.t('rules.not_empty')}}
                             defaultValue=""
                         />
                     </Item>
@@ -65,7 +65,7 @@ export default function Account({ navigation }) {
                     <Item regular>
                         <Controller
                             control={control}
-                            render={({ onChange, onBlur, value }) => (
+                            render={({onChange, onBlur, value}) => (
                                 <Input
                                     placeholder={i18n.t('old_password')}
                                     onBlur={onBlur}
@@ -88,7 +88,7 @@ export default function Account({ navigation }) {
                     <Item regular>
                         <Controller
                             control={control}
-                            render={({ onChange, onBlur, value }) => (
+                            render={({onChange, onBlur, value}) => (
                                 <Input
                                     placeholder={i18n.t('new_password')}
                                     onBlur={onBlur}
@@ -110,7 +110,7 @@ export default function Account({ navigation }) {
                     <Item regular>
                         <Controller
                             control={control}
-                            render={({ onChange, onBlur, value }) => (
+                            render={({onChange, onBlur, value}) => (
                                 <Input
                                     placeholder={i18n.t('confirm_password')}
                                     onBlur={onBlur}
@@ -129,7 +129,8 @@ export default function Account({ navigation }) {
                             defaultValue=""
                         />
                     </Item>
-                    <Text style={styles.errorMessage}>{errors.confirmedPassword && errors.confirmedPassword.message}</Text>
+                    <Text
+                        style={styles.errorMessage}>{errors.confirmedPassword && errors.confirmedPassword.message}</Text>
                     <Button block onPress={handleSubmit(onSubmit)}>
                         <Text>{i18n.t('update')}</Text>
                     </Button>

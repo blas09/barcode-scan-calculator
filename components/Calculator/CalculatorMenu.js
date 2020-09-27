@@ -1,4 +1,4 @@
-import React  from 'react';
+import React from 'react';
 
 import Layout from "../Layout";
 import {Button, Content, Icon, Text} from "native-base";
@@ -10,7 +10,7 @@ export default function CalculatorMenu({navigation}) {
         <Layout title={i18n.t('home_title')} navigation={navigation}>
             <Content contentContainerStyle={styles.content}>
                 <Button iconLeft block primary large onPress={() => navigation.navigate('ProcessCalculator')}>
-                    <Icon name='calculator' />
+                    <Icon name='calculator'/>
                     <Text>{i18n.t('new')}</Text>
                 </Button>
             </Content>

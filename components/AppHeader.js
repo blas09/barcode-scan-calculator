@@ -1,16 +1,16 @@
 import React from 'react';
 
-import { Header, Left, Body, Title, Right } from 'native-base';
-import { StyleSheet } from "react-native";
+import {Header, Left, Body, Title, Right} from 'native-base';
+import {StyleSheet} from "react-native";
 
 export default function AppHeader({title}) {
     return (
         <Header>
-            <Left style={styles.left} />
+            <Left style={styles.left}/>
             <Body style={styles.body}>
                 <Title style={styles.title}>{title.toUpperCase()}</Title>
             </Body>
-            <Right style={styles.right} />
+            <Right style={styles.right}/>
         </Header>
     );
 }

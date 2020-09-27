@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-community/async-storage';
-import { createStore, applyMiddleware, combineReducers } from 'redux';
-import { createLogger } from 'redux-logger';
-import { persistStore, persistReducer } from 'redux-persist';
+import {createStore, applyMiddleware, combineReducers} from 'redux';
+import {createLogger} from 'redux-logger';
+import {persistStore, persistReducer} from 'redux-persist';
 import barcodeReducer from "./reducers/barcode.reducer";
 import authReducer from "./reducers/auth.reducer";
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';

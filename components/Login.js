@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 
-import { Dimensions, Image, StyleSheet, TouchableWithoutFeedback, Keyboard } from 'react-native';
-import { Button, Container, Content, Form, Item, Input, Text } from 'native-base';
-import { login, setCameraPermission } from "../store/actions/auth.action";
-import { useDispatch, useSelector } from "react-redux";
-import { BarCodeScanner } from "expo-barcode-scanner";
-import { runCrypto } from "../helper/Crypter";
+import {Dimensions, Image, StyleSheet, TouchableWithoutFeedback, Keyboard} from 'react-native';
+import {Button, Container, Content, Form, Item, Input, Text} from 'native-base';
+import {login, setCameraPermission} from "../store/actions/auth.action";
+import {useDispatch, useSelector} from "react-redux";
+import {BarCodeScanner} from "expo-barcode-scanner";
+import {runCrypto} from "../helper/Crypter";
 import i18n from 'i18n-js';
 
 export default function Login() {
@@ -30,7 +30,7 @@ export default function Login() {
     useEffect(() => {
         if (null === hasCameraPermission) {
             (async () => {
-                const { status } = await BarCodeScanner.requestPermissionsAsync();
+                const {status} = await BarCodeScanner.requestPermissionsAsync();
                 dispatch(setCameraPermission(status === 'granted'));
             })();
         }
@@ -40,7 +40,7 @@ export default function Login() {
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
             <Container>
                 <Content contentContainerStyle={styles.content}>
-                    <Image source={require('../assets/logo.png')} style={styles.logo} />
+                    <Image source={require('../assets/logo.png')} style={styles.logo}/>
 
                     <Text style={styles.username}>{user.username}</Text>
 

@@ -10,14 +10,14 @@ const initialState = {
 const barcodeReducer = (state = initialState, action) => {
     switch (action.type) {
         case barcodeConstants.SET_REGISTER:
-            return { ...state, user: action.data, initiated: true };
+            return {...state, user: action.data, initiated: true};
         case barcodeConstants.SET_PRODUCT:
             let products = state.products.filter(product => product.barcode !== action.data.barcode);
             products.push(action.data);
 
-            return { ...state, products: products }
+            return {...state, products: products}
         case barcodeConstants.UPDATE_REGISTER:
-            return { ...state, user: {...state.user, ...action.data} };
+            return {...state, user: {...state.user, ...action.data}};
         default:
             return state;
     }

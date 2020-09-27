@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 
-import { AppLoading } from 'expo';
+import {AppLoading} from 'expo';
 import * as Font from 'expo-font';
-import { Provider } from 'react-redux';
-import { PersistGate } from 'redux-persist/integration/react';
-import { store, persistor } from './store';
+import {Provider} from 'react-redux';
+import {PersistGate} from 'redux-persist/integration/react';
+import {store, persistor} from './store';
 import Router from "./navigation/Router";
 import * as Localization from 'expo-localization';
 import i18n from 'i18n-js';
@@ -36,7 +36,7 @@ export default function App() {
     return (
         <Provider store={store}>
             <PersistGate loading={null} persistor={persistor}>
-                <Router />
+                <Router/>
             </PersistGate>
         </Provider>
     );

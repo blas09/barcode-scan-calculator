@@ -7,6 +7,7 @@ import {StyleSheet, Vibration, View, ScrollView} from "react-native";
 import {useSelector} from "react-redux";
 import {useKeepAwake} from "expo-keep-awake";
 import i18n from 'i18n-js';
+import NotFoundProductModal from "../Products/NotFoundProductModal";
 
 export default function ProcessCalculator({route, navigation}) {
     useKeepAwake();
@@ -15,6 +16,9 @@ export default function ProcessCalculator({route, navigation}) {
     const [showScanner, setShowScanner] = useState(true);
     const [purchasedProducts, setPurchasedProducts] = useState([]);
     const [amountToScan, setAmountToScan] = useState(1);
+    const [scannedProductNotFound, setScannedProductNotFound] = useState(false);
+    const [notFoundProductBarcode, setNotFoundProductBarcode] = useState('');
+    const [notFoundProductAmount, setNotFoundProductAmount] = useState(0);
 
     const products = useSelector(state => state.barcode.products);
     const hasCameraPermission = useSelector(state => state.auth.hasCameraPermission);
@@ -31,6 +35,17 @@ export default function ProcessCalculator({route, navigation}) {
 
         //Merge new product into purchase.
         const purchasedProduct = products.filter(product => product.barcode === data).pop();
+
+        //Scanned product not found
+        if ('undefined' === typeof purchasedProduct) {
+            setNotFoundProductBarcode(data);
+            setNotFoundProductAmount(amountToScan);
+            setScannedProductNotFound(true);
+            setShowScanner(false);
+
+            return;
+        }
+
         let purchasedProductsCopy = purchasedProducts.map(product => ({...product}));
         const productIndex = purchasedProducts.findIndex(product => product.barcode === purchasedProduct.barcode);
 
@@ -43,9 +58,19 @@ export default function ProcessCalculator({route, navigation}) {
             purchasedProductsCopy.push({...purchasedProduct, amount: amountToScan});
         }
 
-        //save the new purchase state.
+        //Save the new purchase state.
         setPurchasedProducts(purchasedProductsCopy);
     };
+
+    //Add not found product after it was saved.
+    const processNotFoundProduct = productNotFound => {
+        let purchasedProductsCopy = purchasedProducts.map(product => ({...product}));
+        purchasedProductsCopy.push({...productNotFound, amount: notFoundProductAmount});
+
+        setPurchasedProducts(purchasedProductsCopy);
+        setScannedProductNotFound(false);
+        setShowScanner(true);
+    }
 
     const endCalculationHandler = () => {
         setShowScanner(false);
@@ -58,6 +83,14 @@ export default function ProcessCalculator({route, navigation}) {
                 <Text>{i18n.t('camera_give_access')}</Text>
             </View>
         );
+    }
+
+    if (scannedProductNotFound) {
+        return <NotFoundProductModal
+            barcode={notFoundProductBarcode}
+            onClose={processNotFoundProduct}
+            navigation={navigation}
+        />;
     }
 
     return (
